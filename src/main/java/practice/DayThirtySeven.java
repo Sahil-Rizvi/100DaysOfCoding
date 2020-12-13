@@ -4,48 +4,66 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DayThirtySeven {
-    private Map<Integer,Integer> sparseArray = new HashMap<>();
+
+    private int size;
+    private Map<Integer, Integer> sparseArray = new HashMap<>();
 
     public void init(int[] arr, int size){
-        for(var i=0;i<size;i++){
+        this.size = size;
+        for(var i=0;i<arr.length;i++){
             if(arr[i]!=0){
-                sparseArray.put(i, arr[i]);
+                this.sparseArray.put(i, arr[i]);
             }
         }
     }
 
-    public void set(int i, int val){
-        if(0==val){
-            sparseArray.remove(i);
+    public void set(int index, int value){
+        checkBounds(index);
+        if(value==0){
+            sparseArray.remove(index);
         } else{
-            sparseArray.put(i,val);
+            sparseArray.put(index, value);
         }
     }
 
-    public Integer get(int i){
-        return sparseArray.getOrDefault(i, null);
+    public int get(int index){
+        checkBounds(index);
+        return sparseArray.get(index);
     }
 
+    private void checkBounds(int index){
+        if(index < 0 || index > this.size){
+            throw new IndexOutOfBoundsException();
+        }
+    }
 
     public static void main(String... args){
-        var arr = new int[]{1, 0, 0, 0, 3, 0, 2};
+        var arr = new int[]{1, 0, 0, 0, 3, 0, 0};
         var object = new DayThirtySeven();
-        object.init(arr, arr.length);
+        object.init(arr, 4);
         System.out.println(object.sparseArray);
 
         object.set(2,4);
         System.out.println(object.sparseArray);
-
         object.set(2,0);
         System.out.println(object.sparseArray);
 
+
+        object.set(2,4);
+        System.out.println(object.sparseArray);
+
+        object.set(3,4);
+        System.out.println(object.sparseArray);
+        object.set(4,4);
+        System.out.println(object.sparseArray);
         object.set(10,0);
         System.out.println(object.sparseArray);
 
         object.set(100,1);
         System.out.println(object.sparseArray);
 
-        System.out.println(object.get(4));
+        System.out.println(object.get(0));
+        System.out.println(object.get(3));
         System.out.println(object.get(5));
     }
 }
